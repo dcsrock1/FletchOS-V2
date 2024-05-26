@@ -1,5 +1,6 @@
 #include "drivers/video/VideoInit.h"
 #include "util/stdint.h"
+#include "util/io.h"
 
 #define SZ(x) (sizeof(x)/sizeof(x[0]))
 
@@ -64,7 +65,7 @@ uint8_t height_564[] = { 0x62, 0xf0, 0x60, 0x37, 0x89,
 uint8_t height_600[] = { 0x70, 0xf0, 0x60, 0x5b, 0x8c,
 0x57, 0x58, 0x70 };
 
-uint8_t _set_video_mode(int width, int height,int chain4) {
+uint8_t _set_graphics_mode(uint16_t width, uint16_t height, uint8_t chain4) {
     const uint8_t *w,*h;
     uint8_t val;
     int a;
@@ -137,7 +138,7 @@ uint8_t _set_video_mode(int width, int height,int chain4) {
     if(chain4 && (long)width*(long)height>65536L) {
         return 0;
     }
-    outp(0x3c2,val);
+    outb(0x3c2,val);
     outw(0x3d4,0x0e11);
 
     for(a=0;a<SZ(hor_regs);++a) {
@@ -163,7 +164,7 @@ uint8_t _set_video_mode(int width, int height,int chain4) {
     outw(0x3ce,0x4005);
     outw(0x3ce,0x0506); 
 
-    inp(0x3da);
+    inb(0x3da);
     outb(0x3c0,0x30); 
     outb(0x3c0,0x41);
     outb(0x3c0,0x33); 

@@ -5,7 +5,7 @@
 #define VGA_GC_INDEX     0x3CE
 #define VGA_GC_DATA      0x3CF
 
-#include "util/stdint.h"
+#include <util/stdint.h>
 
 uint8_t _is_text_mode();
 

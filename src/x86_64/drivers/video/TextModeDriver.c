@@ -1,22 +1,23 @@
-#include "devices/video/TextModeDriver.h"
+#include "drivers/video/TextModeDriver.h"
+#include "drivers/video.h"
 
 const static size_t COLS = 80;
 const static size_t ROWS = 25;
 
 struct Char { 
     uint8_t character;
-    uint8_t color;
+    uint8_t colour;
 };
 
 struct Char* buffer = (struct Char*) 0xB8000;
 size_t col = 0;
 size_t row = 0;
-uint8_t color = PRINT_COLOR_WHITE | PRINT_COLOR_BLACK << 4;
+uint8_t colour = COLOR_WHITE | COLOR_BLACK << 4;
 
 void clear_row_txt_mode(size_t row) {
     struct Char empty = (struct Char) {
         character: ' ',
-        color: color,
+        colour: colour,
     };
     for (size_t col = 0; col < COLS; col++) {
         buffer[col + COLS * row] = empty;
@@ -25,7 +26,7 @@ void clear_row_txt_mode(size_t row) {
 
 void clear_screen_txt_mode() {
     for (size_t i = 0; i < ROWS; i++) {
-        clear_row(i);
+        clear_row_txt_mode(i);
     }
 }
 
@@ -42,7 +43,7 @@ void print_newline() {
         }
     }
 
-    clear_row(COLS - 1);
+    clear_row_txt_mode(COLS - 1);
 }
 void print_char_txt_mode(char character) {
     if (character == '\n') {
@@ -56,7 +57,7 @@ void print_char_txt_mode(char character) {
 
     buffer[col + COLS * row] = (struct Char) {
         character: (uint8_t) character,
-        color: colour,
+        colour: colour,
     };
     col++;
 }

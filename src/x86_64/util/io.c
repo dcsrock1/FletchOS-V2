@@ -1,4 +1,4 @@
-#include "drivers/util/io.h"
+#include <util/io.h>
 
 void outb(uint16_t port, uint8_t val) {
     asm volatile("outb %1, %0" : : "dN"(port), "a"(val));
@@ -28,4 +28,9 @@ uint32_t indw(uint16_t _port) {
 
 void outdw(uint16_t _port, uint32_t _data) {
     asm volatile ("outl %%eax, %%dx" : : "dN" (_port), "a" (_data));
+}
+
+void io_wait()
+{
+    outb(0x80, 0);
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "drivers/video/GraphicsModeDriver.h"
 #include "util/stdint.h"
 
 enum {
@@ -23,12 +24,14 @@ enum {
 
 uint8_t is_text_mode();
 
-uint8_t set_graphics_mode(int width, int height,int chain4, uint8_t force);
+uint8_t set_graphics_mode(uint16_t width, uint16_t height, uint8_t chain4, uint8_t force);
+
+void draw_pixel(uint16_t x, uint16_t y, uint8_t r, uint8_t g, uint8_t b, uint8_t brightness);
 
 void print(char* string);
 void println(char* string);
 
 void clear_screen();
-void screen_colour();
+void screen_colour(uint8_t fg, uint8_t bg);
 
 

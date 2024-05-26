@@ -26,8 +26,8 @@ void _print(char* string) {
 
 void _println(char* string) {
     if (_is_text_mode()) {
-        _print("\n");
         print_txt_mode(string);
+        _print("\n");
     } else {
         //_print("\n");
         //print_graphics_mode(string);
@@ -38,7 +38,7 @@ void _clear_screen() {
     if (_is_text_mode()) {
         clear_screen_txt_mode();
     } else {
-        //clear_screen_graphics_mode();
+        clear_screen_graphics_mode();
     }
 }
 void _screen_colour(uint8_t fg, uint8_t bg) {
