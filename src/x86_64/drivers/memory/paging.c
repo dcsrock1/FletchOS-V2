@@ -1,6 +1,9 @@
 #include <drivers/memory/paging.h>
-#include <string.h>
+#include <util/string.h>
 
+#define PAGE_PRESENT 0x1
+#define PAGE_WRITE 0x2
+#define PAGE_USER 0x4
 
 page_entry_t pml4[PAGE_ENTRIES] __attribute__((aligned(PAGE_SIZE)));
 page_entry_t pdpt[PAGE_ENTRIES] __attribute__((aligned(PAGE_SIZE)));
@@ -23,12 +26,12 @@ void init_page_table() {
     pd[0] = ((uint64_t)pt) | 3; // Present, Write, Supervisor
 
     for (int i = 0; i < 256; i++) {
-        pt[i] = ((0xC0000000 + i * PAGE_SIZE) & 0x000FFFFFFFFFF000) | 0x03; // Present, Write, Supervisor
+        pt[i] = ((0xC0000000 + i * PAGE_SIZE) & 0x000FFFFFFFFFF000) | PAGE_PRESENT | PAGE_WRITE; // Present, Write, Supervisor
     }
 
 
     for (int i = 0; i < 524287; i++) {
-        pt[i] = ((0x0000000000000000 + i * PAGE_SIZE) & 0x000FFFFFFFFFF000) | 0x07; // Present, Write, User
+        pt[i] = ((0x0000000000000000 + i * PAGE_SIZE) & 0x000FFFFFFFFFF000) | PAGE_PRESENT | PAGE_WRITE | PAGE_USER; // Present, Write, User
     }
 }
 

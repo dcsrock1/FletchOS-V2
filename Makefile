@@ -11,11 +11,11 @@ x86_64_object_files := $(x86_64_c_object_files) $(x86_64_asm_object_files)
 
 $(kernel_object_files): build/kernel/%.o : src/kernel/%.c
 	mkdir -p $(dir $@) && \
-	gcc -c -I src/include -ffreestanding -mcmodel=kernel $(patsubst build/kernel/%.o, src/kernel/%.c, $@) -o $@
+	gcc -c -I src/include -ffreestanding -fno-asynchronous-unwind-tables -fno-zero-initialized-in-bss $(patsubst build/kernel/%.o, src/kernel/%.c, $@) -o $@
 
 $(x86_64_c_object_files): build/x86_64/%.o : src/x86_64/%.c
 	mkdir -p $(dir $@) && \
-	gcc -c -I src/include -ffreestanding -mcmodel=kernel $(patsubst build/x86_64/%.o, src/x86_64/%.c, $@) -o $@
+	gcc -c -I src/include -ffreestanding -fno-asynchronous-unwind-tables -fno-zero-initialized-in-bss $(patsubst build/x86_64/%.o, src/x86_64/%.c, $@) -o $@
 
 $(x86_64_asm_object_files): build/x86_64/%.o : src/x86_64/%.asm
 	mkdir -p $(dir $@) && \
@@ -30,5 +30,4 @@ build-x86_64: $(kernel_object_files) $(x86_64_object_files)
 
 .PHONY: clean-x86_64
 clean-x86_64:
-
 	rm $(kernel_object_files) $(x86_64_object_files)

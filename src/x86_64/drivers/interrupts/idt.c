@@ -3,7 +3,7 @@
 #include <drivers/video.h>
 #include <drivers/memory.h>
 
-idtEntry IDT[256];
+idtEntry IDT[256] __attribute__((section(".data")));
 idtPointer IDTp;
 extern void load_idt();
 extern void pit_handler();

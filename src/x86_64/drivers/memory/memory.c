@@ -4,6 +4,9 @@
 #include <util/stddef.h>
 #include <util/string.h>
 
+extern char __heap_start;
+extern char __heap_end;
+
 uint8_t kernel_memory_pool[KERNEL_MEMORY_POOL_SIZE];
 uint8_t user_memory_pool[USER_MEMORY_POOL_SIZE];
 Block* kernel_free_list = (Block*)kernel_memory_pool;

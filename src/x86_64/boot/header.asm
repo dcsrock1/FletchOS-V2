@@ -1,5 +1,5 @@
 section .multiboot_header
-
+align 8
 header_start:
     dd 0xE85250D6
     
@@ -12,4 +12,5 @@ header_start:
     dw 0
     dw 0
     dd 8
+    align 8
 header_end:

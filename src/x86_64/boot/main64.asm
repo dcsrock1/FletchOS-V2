@@ -8,7 +8,6 @@ extern kernel_main
 extern kernel_entry
 section .text
 bits 64
-
 %macro pushAll 0
       push   rax
       push   rcx
@@ -63,12 +62,10 @@ load_pml4:
 	mov cr0, rbx
 	or rbx, (1 << 63)
 	mov cr0, rbx
-  	; Now reload the segment registers (CS, DS, SS, etc.) with the appropriate segment selectors...
-  	; Reload CS with a 64-bit code selector by performing a long jmp
 	push 0x08
-	lea rax, [rel .fret]
+	lea rax, [rel .fret64]
 	retfq
-	.fret:
+	.fret64:
 		mov   ax, 0x10 ; 0x10 is a stand-in for your data segment
    		mov   ds, ax
    		mov   es, ax

@@ -2,18 +2,22 @@ ENTRY(start)
 
 SECTIONS
 {
-    . = 1M;
+    . = 0xffffffff00000000;
     .boot :
     {
-        KEEP(*(.multiboot_header))
+        *(.multiboot_header)
     }
-    .text :
+    .text ALIGN(16):
     {
         *(.text)
     }
-    .bss ALIGN (0x8000) : 
+    .data ALIGN(8):
     {
-        *(COMMON)
+        *(.data)
+    }
+    .bss ALIGN(8):
+    {
         *(.bss)
     }
 }
+
